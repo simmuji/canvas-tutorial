@@ -25,7 +25,7 @@
 		
 		//Array for storing particles
 		var particles = [];
-		var max_particles = 10;
+		var max_particles = 100;
 		
 		//Object for each particle
 		var Particle = {
@@ -65,13 +65,13 @@
 			for(var i=0; i< particles.length; i++){
 				var particle = particles[i];
 				
-				//For memory - remove a particle from the array when it hit 10 then 
+				//For memory - remove a particle from the array when it hit max particle allowed 
 				if( particles.length >= max_particles) particles.shift();
 
 				//Create/add a new particle
 				particle.draw();	
-				particle.x += particle.x_speed;
-				particle.y += particle.x_speed;
+				particle.x -= particle.x_speed * Math.random();;
+				particle.y -= particle.y_speed * Math.random();
 			}
 			
 		
@@ -83,7 +83,7 @@
 			createParticle();
 			animate();	
 			
-		}, 500);		
+		}, 20);		
 		
 		
     </script>
