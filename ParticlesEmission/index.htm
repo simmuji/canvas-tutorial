@@ -12,12 +12,42 @@
 	<canvas id="canvas"></canvas>
 	<script>
     	var canvas = document.getElementById('canvas');
-		var screen_width = window.innerWidth();
-		var screen_height = window.innerHeight();
+		var ctx = canvas.getContext('2d');
+		var screen_width = window.innerWidth;
+		var screen_height = window.innerHeight;
 		
 		//Set canvas to the browser screen size
 		canvas.width = screen_width;
 		canvas.height = screen_height;
+		
+		
+		//For Particle
+		
+		//Array for storing particles
+		var particles = [];
+		
+		//Object for each particle
+		var Particle = {
+				x : screen_width/2,
+				y : screen_height/2,
+				radius : 10,
+				bg_color : "#000"
+			};
+		
+		// Particle method for drawing circle	
+		Particle.draw = function(){
+			ctx.beginPath();
+			ctx.fillStyle = this.bg_color;
+			ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+			ctx.closePath();
+			ctx.fill();
+		}
+		
+		
+		// Create a particle and draw a circle
+		var newParticle = Object.create(Particle);
+		newParticle.draw();
+		
 		
 		
     </script>
