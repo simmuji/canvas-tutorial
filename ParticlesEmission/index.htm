@@ -25,11 +25,14 @@
 		
 		//Array for storing particles
 		var particles = [];
+		var max_particles = 10;
 		
 		//Object for each particle
 		var Particle = {
 				x : screen_width/2,
 				y : screen_height/2,
+				x_speed : 10,
+				y_speed : 10,
 				radius : 10,
 				bg_color : "#000"
 			};
@@ -44,10 +47,43 @@
 		}
 		
 		
-		// Create a particle and draw a circle
-		var newParticle = Object.create(Particle);
-		newParticle.draw();
 		
+		
+		// Move create particle into a function and add to the particle's array;
+		function createParticle(){
+			var newParticle = Object.create(Particle);
+			particles.push(newParticle);
+		}
+		
+		// Animate the particle
+		function animate(){
+			//clear canvas
+			ctx.clearRect(0,0,screen_width, screen_height);
+			
+			console.log(particles.length);
+			
+			for(var i=0; i< particles.length; i++){
+				var particle = particles[i];
+				
+				//For memory - remove a particle from the array when it hit 10 then 
+				if( particles.length >= max_particles) particles.shift();
+
+				//Create/add a new particle
+				particle.draw();	
+				particle.x += particle.x_speed;
+				particle.y += particle.x_speed;
+			}
+			
+		
+		}
+		
+		
+		// Set interval for creating animation
+		setInterval(function(){
+			createParticle();
+			animate();	
+			
+		}, 500);		
 		
 		
     </script>
