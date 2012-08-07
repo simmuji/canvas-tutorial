@@ -25,7 +25,7 @@
 		
 		//Array for storing particles
 		var particles = [];
-		var max_particles = 100;
+		var max_particles = 50;
 		
 		//Object for each particle
 		var Particle = {
@@ -33,19 +33,22 @@
 				y : screen_height/2,
 				x_speed : 10,
 				y_speed : 10,
-				radius : 10,
-				bg_color : "#000"
+				radius : 10
 			};
 		
 		// Particle method for drawing circle	
 		Particle.draw = function(){
 			ctx.beginPath();
-			ctx.fillStyle = this.bg_color;
+			ctx.fillStyle = randomColor();
 			ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
 			ctx.closePath();
 			ctx.fill();
 		}
 		
+		// Generate random hexcolor <- grabed it from http://paulirish.com/2009/random-hex-color-code-snippets/
+		function randomColor(){
+			return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+		}
 		
 		
 		
@@ -60,12 +63,10 @@
 			//clear canvas
 			ctx.clearRect(0,0,screen_width, screen_height);
 			
-			console.log(particles.length);
-			
 			for(var i=0; i< particles.length; i++){
 				var particle = particles[i];
 				
-				//For memory - remove a particle from the array when it hit max particle allowed 
+				//For memory - remove the last particle from the array when it hit max particle allowed 
 				if( particles.length >= max_particles) particles.shift();
 
 				//Create/add a new particle
