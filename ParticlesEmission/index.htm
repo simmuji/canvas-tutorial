@@ -2,10 +2,11 @@
 <head>
 <title>Particles</title>
 <style>
-  margin: 0; padding: 0;
+  body{margin: 0; padding: 0;
   width: 100%; height: 100%;
   overflow: hidden;
   background: #171819;
+  }
 </style>
 </head>
 <body>
@@ -25,7 +26,7 @@
 		
 		//Array for storing particles
 		var particles = [];
-		var max_particles = 50;
+		var max_particles = 500;
 		
 		//Object for each particle
 		var Particle = {
@@ -50,11 +51,17 @@
 			return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
 		}
 		
+		// Generate random int based on min and max arguments
+		function randomInt(min, max) {
+			return Math.floor( Math.random() * (max - min + 1) + min );
+		}
 		
 		
 		// Move create particle into a function and add to the particle's array;
 		function createParticle(){
 			var newParticle = Object.create(Particle);
+			newParticle.x_speed = randomInt(-5, 5);
+			newParticle.y_speed = randomInt(-5, 5);
 			particles.push(newParticle);
 		}
 		
@@ -71,8 +78,8 @@
 
 				//Create/add a new particle
 				particle.draw();	
-				particle.x -= particle.x_speed * Math.random();;
-				particle.y -= particle.y_speed * Math.random();
+				particle.x += particle.x_speed * Math.random();
+				particle.y += particle.y_speed * Math.random();
 			}
 			
 		
@@ -84,7 +91,7 @@
 			createParticle();
 			animate();	
 			
-		}, 20);		
+		}, 1000/60);		
 		
 		
     </script>
