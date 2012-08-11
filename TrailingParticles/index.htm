@@ -13,28 +13,48 @@
 	<canvas id="canvas"></canvas>
     <script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
 	<script>
+	
+		// requestAnim shim layer by Paul Irish
+		window.requestAnimFrame = (function(){
+		  return  window.requestAnimationFrame       || 
+				  window.webkitRequestAnimationFrame || 
+				  window.mozRequestAnimationFrame    || 
+				  window.oRequestAnimationFrame      || 
+				  window.msRequestAnimationFrame     || 
+				  function(/* function */ callback, /* DOMElement */ element){
+					window.setTimeout(callback, 1000 / 60);
+				  };
+		})();
+	
+	
 	    var canvas = document.getElementById('canvas');
 		var ctx = canvas.getContext('2d');
 		var screen_width = window.innerWidth;
 		var screen_height = window.innerHeight;
 		var particles = [];
+		var mLoc = {};
 		
 		//Set canvas to the browser screen size
 		canvas.width = screen_width;
 		canvas.height = screen_height;
 
 		
-		//Binding mousemove event on body and calling animate function on mousemove
-		$(document).mousemove(animate); 
+		//Binding mousemove event on body and tracked/save the mouse location to an obj
+		$(document).mousemove(setMouseLoc);
+		
+		function setMouseLoc(e){
+				mLoc.x = e.pageX;
+				mLoc.y = e.pageY;
+		} 
 
 
-		// Repain the canvas with updated particle properties
-		function animate(e){
+		// Repaint the canvas with updated particle properties
+		function rePaint(){
 			ctx.clearRect(0,0,screen_width, screen_height);
 			for(var i=0; i< particles.length; i++){
 				var particle = particles[i];
-				particle.x = e.pageX;
-				particle.y = e.pageY;
+				particle.x = mLoc.x;
+				particle.y = mLoc.y;
 				particle.draw();	
 			}
 		}
@@ -44,8 +64,9 @@
 		var Particle = {
 				x : screen_width/2,
 				y : screen_height/2,
-				x_speed : 10,
-				y_speed : 10,
+				speed : 0.5,
+				x_target: '',
+				y_target: '',
 				radius : 10
 		};
 		
@@ -67,8 +88,14 @@
 
 		// Create a initial particle.
 		createParticle();
-		
 
+
+
+		function animate() {
+			requestAnimFrame( animate );
+			rePaint();
+		}
+		animate();
 		
 		
 		
