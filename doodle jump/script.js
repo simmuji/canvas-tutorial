@@ -13,6 +13,8 @@ var image = document.getElementById('sprite');
 var width = 422;
 var	height = 552;
 
+var	dir = "left";
+
 canvas.width = width;
 canvas.height = height;
 
@@ -65,7 +67,50 @@ var Player = function() {
 };
 
 player = new Player();
-player.draw();
+
+function bindCharacterEvent(){
+	document.onkeydown = function(e) {
+		var key = e.keyCode;
+		if (key == 37) {
+			dir = "left";
+			player.isMovingLeft = true;
+			player.dir = dir;
+			player.x -= 1;
+		} else if (key == 39) {
+			dir = "right";
+			player.isMovingRight = true;
+			player.dir = dir;
+			player.x += 1;
+		}
+	};
+}
+
+ 
+function clearCanvas(){
+	ctx.clearRect(0,0, width, height);	
+}
+
+function rePaint(){
+	clearCanvas();
+	player.draw();
+}
+
+animloop = function() {
+	rePaint();
+	requestAnimFrame(animloop);
+};
+
+function init(){
+	bindCharacterEvent();
+	animloop();
+}
+
+
+init();
+
+
+
+
 
 
 
